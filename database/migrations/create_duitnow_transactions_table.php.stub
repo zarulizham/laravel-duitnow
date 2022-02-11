@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('duitnow_transactions', function (Blueprint $table) {
+            $table->id();
+            $table->string('reference_id', 100)->nullable();
+            $table->string('transaction_id', 100)->nullable();
+            $table->json('request_payload')->nullable();
+            $table->json('response_payload')->nullable();
+            $table->string('end_to_end_id', 100)->nullable();
+            $table->string('payment_status_code', 100)->nullable()->comment('ACSP, ACTC, RJCT');
+            $table->string('payment_substate', 100)->nullable()->comment('CLEARED, PENDING AUTHORISATION, CANCELLED, REJECT');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('duitnow_transactions');
+    }
+};
