@@ -30,13 +30,13 @@ class Bank extends Model
         return $query->whereStatus('Online');
     }
 
-
     public function getCombinedUrlsAttribute()
     {
         $data = "";
         foreach ($this->urls as $url) {
             $data .= "[" . $url->type_text . "] " . $url->url . "\n";
         }
+
         return $data;
     }
 }

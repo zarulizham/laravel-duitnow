@@ -19,7 +19,7 @@ class DuitNowTransactionStatus extends Command
         $duitNowPayment = new DuitNowPayment();
         $status = $duitNowPayment->statusInquiry($endToEndId);
 
-        if (!isset($status['errorCode'])) {
+        if (! isset($status['errorCode'])) {
             $this->updateTransaction($endToEndId, $status);
         } else {
             $this->warn($status['description']);

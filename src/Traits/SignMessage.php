@@ -22,6 +22,7 @@ trait SignMessage
         foreach ($mdMethods as $mdMethod) {
             if ($sigAlgo === $mdMethod) {
                 $found = true;
+
                 break;
             }
         }

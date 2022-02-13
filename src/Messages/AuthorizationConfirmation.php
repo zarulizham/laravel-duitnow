@@ -16,7 +16,6 @@ class AuthorizationConfirmation implements Contract
      */
     public function handle($options)
     {
-
         $this->amount = @$options['AMOUNT'];
         $this->responseCode = @$options['RESPONSE_CODE'];
         $this->transactionId = @$options['TRANSACTION_ID'];
