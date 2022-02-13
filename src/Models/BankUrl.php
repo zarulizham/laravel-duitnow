@@ -3,7 +3,6 @@
 namespace ZarulIzham\DuitNowPayment\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use ZarulIzham\DuitNowPayment\Models\Bank;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BankUrl extends Model

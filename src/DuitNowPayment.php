@@ -2,9 +2,8 @@
 
 namespace ZarulIzham\DuitNowPayment;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use ZarulIzham\DuitNowPayment\Models\Bank;
 use ZarulIzham\DuitNowPayment\Models\BankUrl;
 use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
@@ -44,6 +43,7 @@ class DuitNowPayment
         ]);
 
         $data = $response->object();
+
         return $data->access_token;
     }
 
@@ -71,6 +71,7 @@ class DuitNowPayment
         }
 
         $banks = Bank::with('urls')->get();
+
         return $banks;
     }
 
@@ -159,6 +160,7 @@ class DuitNowPayment
         } else {
             $endToEndId = "?EndtoEndId=" . $messageId;
         }
+
         return sprintf(
             "%s%s%s%s",
             $bankUrl->url,

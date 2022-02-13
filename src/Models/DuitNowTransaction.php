@@ -15,7 +15,7 @@ class DuitNowTransaction extends Model
         'response_payload',
         'end_to_end_id',
         'payment_status_code',
-        'payment_substate'
+        'payment_substate',
     ];
 
     protected $casts = [
