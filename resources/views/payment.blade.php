@@ -46,6 +46,14 @@
                             <input class="form-control" type="text" name="reference_id" value="{{ $request->referece_id ?? '' }}">
                         </div>
                         <div class="form-group mb-3">
+                            <label for="">Coordinate</label>
+                            <input class="form-control" type="text" name="coordinate" value="{{ $request->coordinate ?? '3.05,101.55' }}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">IP Address</label>
+                            <input class="form-control" type="text" name="ip_address" value="{{ request()->ip() }}">
+                        </div>
+                        <div class="form-group mb-3">
                             <label for="">Bank Type</label>
                             <select name="bank_type" id="bank_type" class="form-control">
                                 <option value="RET">Retail Banking (B2C)</option>

@@ -22,7 +22,7 @@ class PaymentController extends Controller
         $bankId = $bankInfo[0];
         $bankType = $bankInfo[1];
 
-        $redirectUrl = $duitNowPayment->initiatePayment($request->amount, "Zarul Zubir", $bankType, "Ref: " . rand(100, 200), $bankId, $request->referenceId);
+        $redirectUrl = $duitNowPayment->initiatePayment($request->amount, "Zarul Zubir", $bankType, $bankId, $request->reference_id, $request->coordinate, $request->ip_address);
 
         return redirect($redirectUrl);
     }

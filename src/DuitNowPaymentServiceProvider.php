@@ -25,7 +25,7 @@ class DuitNowPaymentServiceProvider extends PackageServiceProvider
             ->hasCommands(DuitNowBankList::class, DuitNowTransactionStatus::class);
 
         $this->publishes([
-            $this->package->basePath('/../stubs/Controller.php') => app_path("Http/Controllers/DuitNowPayment/Controller.php"),
+            $this->package->basePath('/../stubs/Controller.php') => app_path("Http/Controllers/DuitNow/Controller.php"),
         ], "{$this->package->shortName()}-controller");
 
         $this->loadViewsFrom(base_path("resources/views/vendor/{$this->package->shortName()}"), "{$this->package->shortName()}");

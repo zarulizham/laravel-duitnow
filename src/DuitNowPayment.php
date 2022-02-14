@@ -13,6 +13,10 @@ class DuitNowPayment
 {
     use SignMessage;
 
+    protected $coordinate;
+
+    protected $ipAddress;
+
     protected $token;
 
     protected $sequence;
@@ -95,8 +99,11 @@ class DuitNowPayment
         }
     }
 
-    public function initiatePayment($amount, $customerName, $bankType, $reference, $bankId, $referenceId)
+    public function initiatePayment($amount, $customerName, $bankType, $bankId, $referenceId, $coordinate, $ipAddress)
     {
+        $this->coordinate = $coordinate;
+        $this->ipAddress = $ipAddress;
+
         $amount = (float) $amount;
 
         $this->commonParameters('861');
@@ -122,7 +129,7 @@ class DuitNowPayment
                 'accountType' => config('duitnow.account_type'),
             ],
             'sourceOfFunds' => config('duitnow.source_of_funds'),
-            'recipientReference' => $reference,
+            'recipientReference' => $referenceId,
         ];
 
         $url = config('duitnow.url') . '/merchants/v1/payments/redirect';
@@ -133,8 +140,8 @@ class DuitNowPayment
             ->withHeaders([
                 'X-Signature-Key' => config('duitnow.x_signature_key'),
                 'X-Signature' => $signedMessage,
-                'X-Gps-Coordinates' => '40.689263,74.044505',
-                'X-Ip-Address' => '127.0.0.1',
+                'X-Gps-Coordinates' => $coordinate,
+                'X-Ip-Address' => $ipAddress,
                 'Content-Type' => 'application/json',
             ])->post($url, $body);
 
