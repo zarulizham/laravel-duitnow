@@ -2,9 +2,9 @@
 
 namespace ZarulIzham\DuitNowPayment\Messages;
 
-use Ramsey\Uuid\Uuid;
-use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
+use ZarulIzham\DuitNowPayment\DuitNowPayment;
 use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
+use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
 
 class AuthorizationConfirmation implements Contract
 {
@@ -16,14 +16,11 @@ class AuthorizationConfirmation implements Contract
      */
     public function handle($options)
     {
-        $this->amount = @$options['AMOUNT'];
-        $this->responseCode = @$options['RESPONSE_CODE'];
-        $this->transactionId = @$options['TRANSACTION_ID'];
-        $this->merchantTransactionId = @$options['MERCHANT_TRANID'];
-        $this->responseDescription = @$options['RESPONSE_DESC'];
+        $this->paymentStatusCode = null;
+        $this->endToEndId = @$options['EndtoEndId'];
+        $this->endToEndIdSignature = @$options['EndtoEndIdSignature'];
         $this->responseData = @$options;
-
-        // $this->saveTransaction();
+        $this->getTransaction();
 
         return $this;
     }
@@ -50,18 +47,41 @@ class AuthorizationConfirmation implements Contract
     /**
      * Save response to transaction
      *
-     * @return FpxTransaction
+     * @return DuitNowTransaction
      */
-    public function saveTransaction(): DuitNowTransaction
+    private function saveTransaction(): DuitNowTransaction
     {
-        $transaction = DuitNowTransaction::where(['transaction_id' => $this->merchantTransactionId])->firstOrNew();
+        $transaction = DuitNowTransaction::where(['end_to_end_id' => $this->endToEndId])->firstOrNew();
 
-        $transaction->unique_id = $transaction->unique_id ?? Uuid::uuid4();
-        $transaction->response_code = $this->responseCode;
-        $transaction->response_description = $this->responseDescription;
-        $transaction->response_payload = $this->list();
+        $transaction->payment_status_code = $this->paymentStatusCode;
+        $transaction->payment_substate = $this->transactionStatus;
+        $transaction->response_payload = $this->responsePayload;
         $transaction->save();
 
         return $transaction;
+    }
+
+    private function getTransaction()
+    {
+        $duitNowPayment = new DuitNowPayment();
+
+        $response = $duitNowPayment->statusInquiry($this->endToEndId);
+
+        if (isset($response['errorCode'])) {
+            throw new \Exception($response['description'], 400);
+        } else {
+            try {
+                $this->transactionStatus = $response['transactionStatus'];
+                $this->transactionId = $response['transactionId'];
+                $this->responsePayload = $response;
+                $this->paymentStatusCode = $response['header']['status']['code'];
+                $this->saveTransaction();
+            } catch (\Throwable $th) {
+                \Log::debug([
+                    'DuitNow.Messages.AuthorizationConfirmation' => $th->getMessage(),
+                ]);
+                throw new \Exception($th->getMessage(), 400);
+            }
+        }
     }
 }
