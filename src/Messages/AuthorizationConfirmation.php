@@ -2,9 +2,9 @@
 
 namespace ZarulIzham\DuitNowPayment\Messages;
 
+use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
 use ZarulIzham\DuitNowPayment\DuitNowPayment;
 use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
-use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
 
 class AuthorizationConfirmation implements Contract
 {
@@ -80,6 +80,7 @@ class AuthorizationConfirmation implements Contract
                 \Log::debug([
                     'DuitNow.Messages.AuthorizationConfirmation' => $th->getMessage(),
                 ]);
+
                 throw new \Exception($th->getMessage(), 400);
             }
         }
