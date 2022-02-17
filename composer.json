@@ -8,17 +8,15 @@
     ],
     "homepage": "https://github.com/zarulizham/laravel-duitnow",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Zarul Zubir",
-            "email": "zarul.izham@gmail.com",
-            "role": "Developer"
-        }
-    ],
+    "authors": [{
+        "name": "Zarul Zubir",
+        "email": "zarul.izham@gmail.com",
+        "role": "Developer"
+    }],
     "require": {
         "php": "^8.0",
         "spatie/laravel-package-tools": "^1.9.2",
-        "illuminate/contracts": "^8.73"
+        "illuminate/contracts": "^8.73|^9"
     },
     "require-dev": {
         "nunomaduro/collision": "^5.10",
