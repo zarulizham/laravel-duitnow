@@ -187,7 +187,7 @@ class DuitNowPayment
         ]);
     }
 
-    public function statusInquiry($endToEndId)
+    public function statusInquiry($endToEndId, $coordinate = null, $ipAddress = null)
     {
         $this->commonParameters('864');
 
@@ -203,8 +203,8 @@ class DuitNowPayment
             ->withHeaders([
                 'X-Signature-Key' => config('duitnow.x_signature_key'),
                 'X-Signature' => $signedMessage,
-                'X-Gps-Coordinates' => '40.689263' . rand(100, 999) . ',74.044505' . rand(100, 999),
-                'X-Ip-Address' => request()->ip(),
+                'X-Gps-Coordinates' => $coordinate ?? '40.689263' . rand(100, 999) . ',74.044505' . rand(100, 999),
+                'X-Ip-Address' => $ipAddress ?? request()->ip(),
                 'Content-Type' => 'application/json',
             ])->get($url);
 
