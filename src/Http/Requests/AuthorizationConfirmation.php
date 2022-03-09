@@ -30,9 +30,10 @@ class AuthorizationConfirmation extends FormRequest
     /**
      * Presist the data to the users table
      */
-    public function handle()
+    public function handle($type = 'webhook')
     {
         $data = $this->all();
+        $data['type'] = $type;
 
         return (new AuthorizationConfirmationMessage())->handle($data);
     }

@@ -16,11 +16,19 @@ class AuthorizationConfirmation implements Contract
      */
     public function handle($options)
     {
+        if ($options['type'] == 'callback') {
+            $this->paymentStatusCode = @$options['Notification']['EventInfo']['PaymentStatus']['Code'];
+            $this->endToEndId = @$options['Notification']['EventInfo']['EndToEndID'];
+            $this->endToEndIdSignature = @$options['Notification']['EventInfo']['Signature'];
+        } else {
+            $this->paymentStatusCode = null;
+            $this->endToEndId = @$options['EndtoEndId'];
+            $this->endToEndIdSignature = @$options['EndtoEndIdSignature'];
+        }
+
         $this->transactionStatus = null;
         $this->responsePayload = @$options;
-        $this->paymentStatusCode = @$options['Notification']['EventInfo']['PaymentStatus']['Code'];
-        $this->endToEndId = @$options['Notification']['EventInfo']['EndToEndID'];
-        $this->endToEndIdSignature = @$options['Notification']['EventInfo']['Signature'];
+
         $this->getTransaction();
 
         return $this;

@@ -15,7 +15,7 @@ class Controller extends BaseController
      */
     public function callback(ConfirmationRequest $request)
     {
-        $response = $request->handle();
+        $response = $request->handle('callback');
         // Update your order status
 
         return response()->make('OK', 200);
