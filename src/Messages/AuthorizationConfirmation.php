@@ -2,10 +2,9 @@
 
 namespace ZarulIzham\DuitNowPayment\Messages;
 
-use ZarulIzham\DuitNowPayment\DuitNowPayment;
-use Illuminate\Http\Client\ConnectionException;
-use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
 use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
+use ZarulIzham\DuitNowPayment\DuitNowPayment;
+use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
 
 class AuthorizationConfirmation implements Contract
 {
@@ -70,6 +69,7 @@ class AuthorizationConfirmation implements Contract
         $response = $duitNowPayment->statusInquiry($this->endToEndId);
         if (isset($response['errorCode'])) {
             $this->saveTransaction();
+
             throw new \Exception($response['description'], 400);
         } else {
             try {

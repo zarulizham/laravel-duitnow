@@ -2,13 +2,12 @@
 
 namespace ZarulIzham\DuitNowPayment;
 
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use ZarulIzham\DuitNowPayment\Models\Bank;
 use ZarulIzham\DuitNowPayment\Models\BankUrl;
-use Illuminate\Http\Client\ConnectionException;
-use ZarulIzham\DuitNowPayment\Traits\SignMessage;
 use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
+use ZarulIzham\DuitNowPayment\Traits\SignMessage;
 
 class DuitNowPayment
 {
