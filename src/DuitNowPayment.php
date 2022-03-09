@@ -2,12 +2,13 @@
 
 namespace ZarulIzham\DuitNowPayment;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use ZarulIzham\DuitNowPayment\Models\Bank;
 use ZarulIzham\DuitNowPayment\Models\BankUrl;
-use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
+use Illuminate\Http\Client\ConnectionException;
 use ZarulIzham\DuitNowPayment\Traits\SignMessage;
+use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
 
 class DuitNowPayment
 {
@@ -196,6 +197,7 @@ class DuitNowPayment
         $signedMessage = $this->sign($message);
 
         $url = config('duitnow.url') . "/merchants/v1/payments/payment/status?clientId=" . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId&endToEndId=$endToEndId";
+
         $response = Http::withToken($this->token)
             ->withOptions([
                 'debug' => false,

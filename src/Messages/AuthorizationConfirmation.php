@@ -2,9 +2,10 @@
 
 namespace ZarulIzham\DuitNowPayment\Messages;
 
-use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
 use ZarulIzham\DuitNowPayment\DuitNowPayment;
+use Illuminate\Http\Client\ConnectionException;
 use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
+use ZarulIzham\DuitNowPayment\Contracts\Message as Contract;
 
 class AuthorizationConfirmation implements Contract
 {
@@ -16,9 +17,10 @@ class AuthorizationConfirmation implements Contract
      */
     public function handle($options)
     {
-        $this->paymentStatusCode = null;
-        $this->endToEndId = @$options['EndtoEndId'];
-        $this->endToEndIdSignature = @$options['EndtoEndIdSignature'];
+        $this->transactionStatus = null;
+        $this->paymentStatusCode = @$options['Notification']['EventInfo']['PaymentStatus']['Code'];
+        $this->endToEndId = @$options['Notification']['EventInfo']['EndToEndID'];
+        $this->endToEndIdSignature = @$options['Notification']['EventInfo']['Signature'];
         $this->responseData = @$options;
         $this->getTransaction();
 
@@ -66,8 +68,8 @@ class AuthorizationConfirmation implements Contract
         $duitNowPayment = new DuitNowPayment();
 
         $response = $duitNowPayment->statusInquiry($this->endToEndId);
-
         if (isset($response['errorCode'])) {
+            $this->saveTransaction();
             throw new \Exception($response['description'], 400);
         } else {
             try {
