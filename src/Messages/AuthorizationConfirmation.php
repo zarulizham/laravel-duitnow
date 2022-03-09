@@ -18,10 +18,10 @@ class AuthorizationConfirmation implements Contract
     public function handle($options)
     {
         $this->transactionStatus = null;
+        $this->responsePayload = @$options;
         $this->paymentStatusCode = @$options['Notification']['EventInfo']['PaymentStatus']['Code'];
         $this->endToEndId = @$options['Notification']['EventInfo']['EndToEndID'];
         $this->endToEndIdSignature = @$options['Notification']['EventInfo']['Signature'];
-        $this->responseData = @$options;
         $this->getTransaction();
 
         return $this;
@@ -43,7 +43,7 @@ class AuthorizationConfirmation implements Contract
      */
     public function list()
     {
-        return collect($this->responseData);
+        return collect($this->responsePayload);
     }
 
     /**
