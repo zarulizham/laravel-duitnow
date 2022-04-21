@@ -68,10 +68,12 @@ class DuitNowPayment
                 'X-Ip-Address' => request()->ip(),
             ])->get($url);
 
-        $this->syncBanks($response->object()?->banks);
+        if ($response->status() == 200) {
+            $this->syncBanks($response->object()?->banks);
 
-        if ($response->object()?->pageKey) {
-            $this->bankList($response->object()->pageKey);
+            if ($response->object()?->pageKey) {
+                $this->bankList($response->object()->pageKey);
+            }
         }
 
         $banks = Bank::with('urls')->get();
