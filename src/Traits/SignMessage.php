@@ -8,11 +8,11 @@ trait SignMessage
 {
     public function sign($message)
     {
-        $privateKey = Storage::disk(config('duitnow.certificates.uat.disk'))->get(config('duitnow.certificates.uat.dir') . 'pvt.key');
+        $privateKey = Storage::disk(config('duitnow.certificates.disk'))->get(config('duitnow.certificates.dir') . 'pvt.key');
         $pvtKeyRes = openssl_pkey_get_private($privateKey);
         openssl_pkey_export($pvtKeyRes, $pvtKey);
 
-        $publicKey = Storage::disk(config('duitnow.certificates.uat.disk'))->get(config('duitnow.certificates.uat.dir') . 'pub.key');
+        $publicKey = Storage::disk(config('duitnow.certificates.disk'))->get(config('duitnow.certificates.dir') . 'pub.key');
         $pubKeyRes = openssl_pkey_get_public($publicKey);
 
         $sigAlgo = 'sha256WithRSAEncryption';

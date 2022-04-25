@@ -17,14 +17,8 @@ return [
     ],
 
     'certificates' => [
-        'uat' => [
-            'disk' => 'local',
-            'dir' => 'paynet/duitnow/',
-        ],
-        'production' => [
-            'disk' => 'local',
-            'dir' => 'paynet/duitnow/',
-        ]
+        'disk' => 'local',
+        'dir' => 'paynet/duitnow/',
     ],
 
     'direct_path' => env('DUITNOW_DIRECT_PATH'),
