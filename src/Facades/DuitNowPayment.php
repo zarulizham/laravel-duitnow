@@ -11,6 +11,6 @@ class DuitNowPayment extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'laravel-duitnow';
+        return \ZarulIzham\DuitNowPayment\DuitNowPayment::class;
     }
 }
