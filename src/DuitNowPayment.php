@@ -132,6 +132,7 @@ class DuitNowPayment
             ],
             'sourceOfFunds' => config('duitnow.source_of_funds'),
             'recipientReference' => $referenceId,
+            'paymentDescription' => $referenceId,
         ];
 
         $url = config('duitnow.url') . '/merchants/v1/payments/redirect';
