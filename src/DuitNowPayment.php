@@ -110,7 +110,7 @@ class DuitNowPayment
 
         $this->commonParameters('861');
 
-        $message = config('duitnow.merchant_id') . 'RPPEMYKL' . $this->messageId . $this->transactionId . 'RPPEMYKL' .  $this->messageId . number_format($amount, 2) . config('duitnow.merchant_id');
+        $message = config('duitnow.merchant_id') . 'RPPEMYKL' . $this->messageId . $this->transactionId . 'RPPEMYKL' .  $this->messageId . number_format($amount, 2, '.', '') . config('duitnow.merchant_id');
 
         $signedMessage = $this->sign($message);
 
