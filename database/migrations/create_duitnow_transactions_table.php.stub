@@ -15,6 +15,7 @@ return new class extends Migration
             $table->json('request_payload')->nullable();
             $table->json('response_payload')->nullable();
             $table->string('end_to_end_id', 100)->nullable();
+            $table->dateTime('sale_cleared_at')->nullable();
             $table->string('payment_status_code', 100)->nullable()->comment('ACSP, ACTC, RJCT');
             $table->string('payment_substate', 100)->nullable()->comment('CLEARED, PENDING AUTHORISATION, CANCELLED, REJECT');
             $table->timestamps();
