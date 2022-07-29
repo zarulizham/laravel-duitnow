@@ -14,6 +14,7 @@ class DuitNowTransaction extends Model
         'request_payload',
         'response_payload',
         'end_to_end_id',
+        'sale_cleared_at',
         'payment_status_code',
         'payment_substate',
     ];
