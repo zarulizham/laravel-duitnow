@@ -123,7 +123,7 @@ class DuitNowPayment
             'amount' => $amount,
             'productId' => config('duitnow.product_id'),
             'customer' => [
-                'name' => $customerName,
+                'name' => preg_replace('/[^\da-z ]/i', '', $customerName),
                 'bankType' => $bankType,
             ],
             'merchant' => [
