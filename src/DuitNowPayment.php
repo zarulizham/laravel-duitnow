@@ -86,8 +86,8 @@ class DuitNowPayment
         foreach ($banks ?? [] as $record) {
             $bank = Bank::updateOrCreate([
                 'code' => $record->code,
-                'name' => $record->name,
             ], [
+                'name' => $record->name,
                 'status' => $record->active ? 'Online' : 'Offline',
             ]);
 
