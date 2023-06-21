@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('payment_status_code', 100)->nullable()->comment('ACSP, ACTC, RJCT');
             $table->string('payment_substate', 100)->nullable()->comment('CLEARED, PENDING AUTHORISATION, CANCELLED, REJECT');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
