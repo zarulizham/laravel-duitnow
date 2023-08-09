@@ -40,7 +40,7 @@ class DuitNowPayment
 
     public function authenticate()
     {
-        $response = Http::asForm()->post(config('duitnow.url') . '/auth/token', [
+        $response = Http::asForm()->post(config('duitnow.token_url') . '/auth/token', [
             'grant_type' => 'client_credentials',
             'client_id' => config('duitnow.client_id'),
             'client_secret' => config('duitnow.client_secret'),
