@@ -1,6 +1,7 @@
 <?php
 // config for ZarulIzham/DuitNowPayment
 return [
+    'token_url' => env('DUITNOW_TOKEN_URL'),
     'url' => env('DUITNOW_URL'),
     'client_id' => env('DUITNOW_CLIENT_ID'),
     'product_id' => env('DUITNOW_PRODUCT_ID'),
