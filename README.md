@@ -41,6 +41,7 @@ This is the contents of the published config file:
 ```php
 return [
     'url' => env('DUITNOW_URL'),
+    'token_url' => env('DUITNOW_TOKEN_URL'),
     'client_id' => env('DUITNOW_CLIENT_ID'),
     'product_id' => env('DUITNOW_PRODUCT_ID'),
     'client_secret' => env('DUITNOW_CLIENT_SECRET'),
