@@ -165,10 +165,10 @@ class DuitNowPayment
             return $query->whereId($bankId);
         })->whereType($bankType)->first();
 
-        if (str_contains("RPP/MY/Redirect/RTP", $bankUrl->url)) {
-            $endToEndId = "&EndtoEndId=" . $messageId;
+        if (str_contains($bankUrl->url, 'simulator.uat.inet.paynet.my')) {
+            $endToEndId = '/RPP/MY/Redirect/RTP?EndtoEndId='.$messageId;
         } else {
-            $endToEndId = "?EndtoEndId=" . $messageId;
+            $endToEndId = '?EndtoEndId='.$messageId;
         }
 
         return sprintf(

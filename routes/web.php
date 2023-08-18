@@ -12,7 +12,7 @@ Route::middleware(['web'])->group(function () {
 
     Route::post('duitnow/payment/auth', [PaymentController::class, 'handle'])->name('duitnow.payment.auth.request');
 
-    Route::post($directPath, [Controller::class, 'webhook'])->name('duitnow.payment.direct');
+    Route::match(['get', 'post'], $directPath, [Controller::class, 'webhook'])->name('duitnow.payment.direct');
     Route::post($callbackPath, [Controller::class, 'callback'])->name('duitnow.payment.callback');
 
     Route::match(
