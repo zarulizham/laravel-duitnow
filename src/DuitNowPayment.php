@@ -40,7 +40,7 @@ class DuitNowPayment
 
     public function authenticate()
     {
-        $response = Http::asForm()->post(config('duitnow.url') . '/auth/token', [
+        $response = Http::asForm()->post(config('duitnow.url.token'), [
             'grant_type' => 'client_credentials',
             'client_id' => config('duitnow.client_id'),
             'client_secret' => config('duitnow.client_secret'),
@@ -59,7 +59,7 @@ class DuitNowPayment
 
         $signedMessage = $this->sign($message);
 
-        $url = config('duitnow.url') . '/merchants/v1/payments/lists/bank?clientId=' . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId" . ($pageKey ? "&pageKey=$pageKey" : "");
+        $url = config('duitnow.url.base') . '/merchants/v1/payments/lists/bank?clientId=' . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId" . ($pageKey ? "&pageKey=$pageKey" : "");
         $response = Http::withToken($this->token)
             ->withHeaders([
                 'X-Signature-Key' => config('duitnow.x_signature_key'),
@@ -135,7 +135,7 @@ class DuitNowPayment
             'paymentDescription' => $referenceId,
         ];
 
-        $url = config('duitnow.url') . '/merchants/v1/payments/redirect';
+        $url = config('duitnow.url.base') . '/merchants/v1/payments/redirect';
         $response = Http::withToken($this->token)
             ->withOptions([
                 'debug' => false,
@@ -198,7 +198,7 @@ class DuitNowPayment
 
         $signedMessage = $this->sign($message);
 
-        $url = config('duitnow.url') . "/merchants/v1/payments/payment/status?clientId=" . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId&endToEndId=$endToEndId";
+        $url = config('duitnow.url.base') . "/merchants/v1/payments/payment/status?clientId=" . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId&endToEndId=$endToEndId";
 
         $response = Http::withToken($this->token)
             ->withOptions([
