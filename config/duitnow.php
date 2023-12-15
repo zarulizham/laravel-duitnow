@@ -2,7 +2,7 @@
 // config for ZarulIzham/DuitNowPayment
 return [
     'url' => [
-        'token' => env('DUITNOW_URL_TOKEN', 'https://sandbox.api.paynet.my/auth/token'),
+        'token' => env('DUITNOW_TOKEN_URL', 'https://sandbox.api.paynet.my/auth/token'),
         'base' => env('DUITNOW_BASE_URL', 'https://mock.developer.paynet.my'),
     ],
     'client_id' => env('DUITNOW_CLIENT_ID'),
