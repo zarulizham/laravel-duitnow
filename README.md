@@ -1,13 +1,11 @@
-# Malaysia DuitNow Payment
+# Malaysia DuitNow Online Banking/Wallet Payment
+
+![DNOBW Logo](https://i.ibb.co/Bjc0Fyv/dnobw.png)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/zarulizham/laravel-duitnow.svg?style=flat-square)](https://packagist.org/packages/zarulizham/laravel-duitnow)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/zarulizham/laravel-duitnow/run-tests?label=tests)](https://github.com/zarulizham/laravel-duitnow/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/zarulizham/laravel-duitnow/Check%20&%20fix%20styling?label=code%20style)](https://github.com/zarulizham/laravel-duitnow/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/zarulizham/laravel-duitnow.svg?style=flat-square)](https://packagist.org/packages/zarulizham/laravel-duitnow)
 
-Package for DuitNow Payment
-
-## Support us
+Package for Malaysia DuitNow Online Banking/Wallet Payment
 
 ## Installation
 
@@ -30,7 +28,7 @@ You can publish the config file with:
 php artisan vendor:publish --tag="duitnow-config"
 ```
 
-You can publish the contorller file with:
+You can publish the controller file with:
 
 ```bash
 php artisan vendor:publish --tag="duitnow-controller"
@@ -100,7 +98,6 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 -   [Zarul Zubir](https://github.com/zarulizham)
--   [All Contributors](../../contributors)
 
 ## License
 
