@@ -119,7 +119,7 @@ class DuitNowPayment
             'messageId' => $this->messageId,
             'transactionId' => $this->transactionId,
             'endToEndId' => $this->messageId,
-            'expiryDate' => now()->addMinutes(35),
+            // 'expiryDate' => now()->addMinutes(35),
             'currency' => 'MYR',
             'amount' => $amount,
             'productId' => config('duitnow.product_id'),
