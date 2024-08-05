@@ -12,7 +12,6 @@ class PaymentController extends Controller
      * Initiate the request authorization message to FPX
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
      */
     public function handle(Request $request)
     {
@@ -22,7 +21,18 @@ class PaymentController extends Controller
         $bankId = $bankInfo[0];
         $bankType = $bankInfo[1];
 
-        $redirectUrl = $duitNowPayment->initiatePayment($request->amount, "Zarul Zubir", $bankType, $bankId, $request->reference_id, $request->coordinate, $request->ip_address);
+        $redirectUrl = $duitNowPayment->initiatePayment(
+            amount: $request->amount, 
+            customerName: "Zarul Zubir", 
+            bankType: $bankType, 
+            bankId: $bankId, 
+            recipientReference: $request->recipient_reference ?? $request->reference_id, 
+            coordinate: $request->coordinate, 
+            ipAddress: $request->ip_address,
+            paymentDescription: $request->payment_description ?? $request->recipient_reference,
+            referenceId: $request->reference_id,
+            referenceType: $request->reference_type,
+        );
 
         return redirect($redirectUrl);
     }
