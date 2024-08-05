@@ -12,6 +12,7 @@ class DuitNowTransaction extends Model
     protected $fillable = [
         'transaction_id',
         'reference_id',
+        'reference_type',
         'request_payload',
         'response_payload',
         'end_to_end_id',
