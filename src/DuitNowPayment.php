@@ -101,7 +101,7 @@ class DuitNowPayment
         }
     }
 
-    public function initiatePayment($amount, $customerName, $bankType, $bankId, $referenceId, $coordinate, $ipAddress)
+    public function initiatePayment($amount, $customerName, $bankType, $bankId, $recipientReference, $coordinate, $ipAddress, $paymentDescription = null, $referenceId = null, $referenceType = null)
     {
         $this->coordinate = $coordinate;
         $this->ipAddress = $ipAddress;
@@ -132,8 +132,8 @@ class DuitNowPayment
                 'accountType' => config('duitnow.account_type'),
             ],
             'sourceOfFunds' => config('duitnow.source_of_funds'),
-            'recipientReference' => $referenceId,
-            'paymentDescription' => $referenceId,
+            'recipientReference' => $recipientReference,
+            'paymentDescription' => $paymentDescription ?? $recipientReference,
         ];
 
         $url = config('duitnow.url.base') . '/merchants/v1/payments/redirect';
@@ -149,7 +149,7 @@ class DuitNowPayment
                 'Content-Type' => 'application/json',
             ])->post($url, $body);
 
-        $this->saveTransaction($this->transactionId, $referenceId, $body, $this->messageId);
+        $this->saveTransaction($this->transactionId, $referenceId, $referenceType, $body, $this->messageId);
 
         if ($response->status() == 200) {
             $redirectUrl = $this->getUrl($bankId, $bankType, $this->messageId, $response->object()->endToEndIdSignature);
@@ -181,11 +181,12 @@ class DuitNowPayment
         );
     }
 
-    protected function saveTransaction($transactionId, $referenceId, $requestPayload, $endToEndId): DuitNowTransaction
+    protected function saveTransaction($transactionId, $referenceId, $referenceType, $requestPayload, $endToEndId): DuitNowTransaction
     {
         return DuitNowTransaction::create([
             'transaction_id' => $transactionId,
             'reference_id' => $referenceId,
+            'reference_type' => $referenceType,
             'request_payload' => $requestPayload,
             'end_to_end_id' => $endToEndId,
         ]);

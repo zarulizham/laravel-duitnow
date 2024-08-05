@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('duitnow_transactions', function (Blueprint $table) {
             $table->id();
             $table->string('reference_id', 100)->nullable();
+            $table->string('reference_type', 100)->nullable();
             $table->string('transaction_id', 100)->nullable();
             $table->json('request_payload')->nullable();
             $table->json('response_payload')->nullable();

@@ -3,6 +3,7 @@
 namespace ZarulIzham\DuitNowPayment\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class DuitNowTransaction extends Model
 {
@@ -23,4 +24,9 @@ class DuitNowTransaction extends Model
         'request_payload' => 'object',
         'response_payload' => 'object',
     ];
+
+    public function reference() : MorphTo
+    {
+        return $this->morphTo();
+    }
 }

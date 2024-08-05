@@ -28,6 +28,10 @@ class DuitNowPaymentServiceProvider extends PackageServiceProvider
             $this->package->basePath('/../stubs/Controller.php') => app_path("Http/Controllers/DuitNow/Controller.php"),
         ], "{$this->package->shortName()}-controller");
 
+        $this->publishes([
+            $this->package->basePath('/../stubs/migrations') => database_path("migrations"),
+        ], "{$this->package->shortName()}-v2-migration");
+
         $this->loadViewsFrom(base_path("resources/views/vendor/{$this->package->shortName()}"), "{$this->package->shortName()}");
     }
 }

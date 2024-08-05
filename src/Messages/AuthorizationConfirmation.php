@@ -8,6 +8,11 @@ use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
 
 class AuthorizationConfirmation implements Contract
 {
+    public $paymentStatusCode;
+    public $responsePayload;
+    public $endToEndId;
+    public $transactionStatus;
+
     /**
      * handle a message
      *
@@ -45,8 +50,6 @@ class AuthorizationConfirmation implements Contract
 
     /**
      * returns collection of all fields
-     *
-     * @return collection
      */
     public function list()
     {
@@ -62,6 +65,7 @@ class AuthorizationConfirmation implements Contract
     {
         $transaction = DuitNowTransaction::where(['end_to_end_id' => $this->endToEndId])->firstOrNew();
 
+        $transaction->end_to_end_id = $this->endToEndId;
         $transaction->payment_status_code = $this->paymentStatusCode;
         $transaction->payment_substate = $this->transactionStatus;
         $transaction->response_payload = $this->responsePayload;
@@ -87,8 +91,8 @@ class AuthorizationConfirmation implements Contract
                 $this->paymentStatusCode = $response['header']['status']['code'];
                 $this->saveTransaction();
             } catch (\Throwable $th) {
-                \Log::debug([
-                    'DuitNow.Messages.AuthorizationConfirmation' => $th->getMessage(),
+                \Log::debug('DuitNow.Messages.AuthorizationConfirmation', [
+                    'message' => $th->getMessage(),
                 ]);
 
                 throw new \Exception($th->getMessage(), 400);

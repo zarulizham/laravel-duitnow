@@ -87,6 +87,14 @@ php artisan vendor:publish --tag="duitnow-views"
     $redirectUrl = $duitNowPayment->initiatePayment(10, "Zarul Zubir", $bankType, "Ref: " . rand(100, 200), $bankId, 'A1000001');
 ```
 
+## Upgrade v1 to v2
+
+This major upgrade add column on transaction table to allow morphing.
+
+```
+Run `php artisan vendor:publish --tag=duitnow-v2-migration`
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.

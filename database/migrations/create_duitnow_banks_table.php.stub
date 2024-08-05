@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name', 300);
             $table->string('status', 20)->nullable()->comment('Online, Offline');
+            $table->boolean('is_active')->nullable()->default(true);
             $table->timestamps();
         });
     }

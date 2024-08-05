@@ -35,6 +35,6 @@ class AuthorizationConfirmation extends FormRequest
         $data = $this->all();
         $data['type'] = $type;
 
-        return (new AuthorizationConfirmationMessage())->handle($data);
+        return (new AuthorizationConfirmationMessage)->handle($data);
     }
 }
