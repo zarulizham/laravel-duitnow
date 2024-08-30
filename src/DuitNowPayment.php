@@ -154,7 +154,7 @@ class DuitNowPayment
         if ($response->status() == 200) {
             $redirectUrl = $this->getUrl($bankId, $bankType, $this->messageId, $response->object()->endToEndIdSignature);
         } else {
-            throw new \Exception($response->object()->header->status->description, $response->status());
+            throw new \Exception($response->object()->header->status->description);
         }
 
         return $redirectUrl;
