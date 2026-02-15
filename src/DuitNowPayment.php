@@ -33,9 +33,9 @@ class DuitNowPayment
 
         $this->sequence = str_pad(Cache::increment('duitnow_sequence'), 8, "0", STR_PAD_LEFT);
 
-        $this->messageId = date('Ymd') . config('duitnow.merchant_id') . $transactionType . 'O' . 'BW' . $this->sequence;
+        $this->messageId = date('Ymd').config('duitnow.merchant_id').$transactionType.'O'.'BW'.$this->sequence;
 
-        $this->transactionId = date('Ymd') . config('duitnow.merchant_id') . $transactionType . $this->sequence;
+        $this->transactionId = date('Ymd').config('duitnow.merchant_id').$transactionType.$this->sequence;
     }
 
     public function authenticate()
@@ -55,24 +55,24 @@ class DuitNowPayment
     {
         $this->commonParameters('650');
 
-        $message = config('duitnow.merchant_id') . 'RPPEMYKL' . $this->messageId . $this->transactionId . $this->messageId . config('duitnow.merchant_id');
+        $message = config('duitnow.merchant_id').'RPPEMYKL'.$this->messageId.$this->transactionId.$this->messageId.config('duitnow.merchant_id');
 
         $signedMessage = $this->sign($message);
 
-        $url = config('duitnow.url.base') . '/merchants/v1/payments/lists/bank?clientId=' . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId" . ($pageKey ? "&pageKey=$pageKey" : "");
+        $url = config('duitnow.url.base').'/merchants/v1/payments/lists/bank?clientId='.config('duitnow.merchant_id')."&messageId=$this->messageId&transactionId=$this->transactionId".($pageKey ? "&pageKey=$pageKey" : "");
         $response = Http::withToken($this->token)
             ->withHeaders([
                 'X-Signature-Key' => config('duitnow.x_signature_key'),
                 'X-Signature' => $signedMessage,
-                'X-Gps-Coordinates' => '40.689263' . rand(100, 999) . ',74.044505' . rand(100, 999),
+                'X-Gps-Coordinates' => '40.689263'.rand(100, 999).',74.044505'.rand(100, 999),
                 'X-Ip-Address' => request()->ip(),
             ])->get($url);
 
         if ($response->status() == 200) {
             $this->syncBanks($response->object()?->banks);
 
-            if ($response->object()?->pageKey) {
-                $this->bankList($response->object()->pageKey);
+            if ($response->json('pageKey')) {
+                $this->bankList($response->json('pageKey'));
             }
         }
 
@@ -110,7 +110,7 @@ class DuitNowPayment
 
         $this->commonParameters('861');
 
-        $message = config('duitnow.merchant_id') . 'RPPEMYKL' . $this->messageId . $this->transactionId . 'RPPEMYKL' .  $this->messageId . number_format($amount, 2, '.', '') . config('duitnow.merchant_id');
+        $message = config('duitnow.merchant_id').'RPPEMYKL'.$this->messageId.$this->transactionId.'RPPEMYKL'.$this->messageId.number_format($amount, 2, '.', '').config('duitnow.merchant_id');
 
         $signedMessage = $this->sign($message);
 
@@ -136,7 +136,7 @@ class DuitNowPayment
             'paymentDescription' => $paymentDescription ?? $recipientReference,
         ];
 
-        $url = config('duitnow.url.base') . '/merchants/v1/payments/redirect';
+        $url = config('duitnow.url.base').'/merchants/v1/payments/redirect';
         $response = Http::withToken($this->token)
             ->withOptions([
                 'debug' => false,
@@ -176,8 +176,8 @@ class DuitNowPayment
             "%s%s%s%s",
             $bankUrl->url,
             $endToEndId,
-            "&EndtoEndIdSignature=" . urlencode($endToEndIdSignature),
-            "&DbtrAgt=" . $bankUrl->bank->code,
+            "&EndtoEndIdSignature=".urlencode($endToEndIdSignature),
+            "&DbtrAgt=".$bankUrl->bank->code,
         );
     }
 
@@ -196,11 +196,11 @@ class DuitNowPayment
     {
         $this->commonParameters('864');
 
-        $message = config('duitnow.merchant_id') . 'RPPEMYKL' . $this->messageId . $this->transactionId . $endToEndId . $endToEndId;
+        $message = config('duitnow.merchant_id').'RPPEMYKL'.$this->messageId.$this->transactionId.$endToEndId.$endToEndId;
 
         $signedMessage = $this->sign($message);
 
-        $url = config('duitnow.url.base') . "/merchants/v1/payments/payment/status?clientId=" . config('duitnow.merchant_id') . "&messageId=$this->messageId&transactionId=$this->transactionId&endToEndId=$endToEndId";
+        $url = config('duitnow.url.base')."/merchants/v1/payments/payment/status?clientId=".config('duitnow.merchant_id')."&messageId=$this->messageId&transactionId=$this->transactionId&endToEndId=$endToEndId";
 
         $response = Http::withToken($this->token)
             ->withOptions([
@@ -209,7 +209,7 @@ class DuitNowPayment
             ->withHeaders([
                 'X-Signature-Key' => config('duitnow.x_signature_key'),
                 'X-Signature' => $signedMessage,
-                'X-Gps-Coordinates' => $coordinate ?? '40.689263' . rand(100, 999) . ',74.044505' . rand(100, 999),
+                'X-Gps-Coordinates' => $coordinate ?? '40.689263'.rand(100, 999).',74.044505'.rand(100, 999),
                 'X-Ip-Address' => $ipAddress ?? request()->ip(),
                 'Content-Type' => 'application/json',
             ])->get($url);
