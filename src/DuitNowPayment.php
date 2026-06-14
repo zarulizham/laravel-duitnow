@@ -4,6 +4,7 @@ namespace ZarulIzham\DuitNowPayment;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use ZarulIzham\DuitNowPayment\Exceptions\AuthenticationException;
 use ZarulIzham\DuitNowPayment\Models\Bank;
 use ZarulIzham\DuitNowPayment\Models\BankUrl;
 use ZarulIzham\DuitNowPayment\Models\DuitNowTransaction;
@@ -45,6 +46,10 @@ class DuitNowPayment
             'client_id' => config('duitnow.client_id'),
             'client_secret' => config('duitnow.client_secret'),
         ]);
+
+        if ($response->failed()) {
+            throw new AuthenticationException();
+        }
 
         $data = $response->object();
 
@@ -209,7 +214,7 @@ class DuitNowPayment
             ->withHeaders([
                 'X-Signature-Key' => config('duitnow.x_signature_key'),
                 'X-Signature' => $signedMessage,
-                'X-Gps-Coordinates' => $coordinate ?? '40.689263'.rand(100, 999).',74.044505'.rand(100, 999),
+                'X-Gps-Coordinates' => '40.689263'.rand(100, 999).',74.044505'.rand(100, 999),
                 'X-Ip-Address' => $ipAddress ?? request()->ip(),
                 'Content-Type' => 'application/json',
             ])->get($url);
